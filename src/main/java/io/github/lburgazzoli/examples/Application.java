@@ -5,7 +5,9 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import org.apache.camel.CamelContext;
+import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +31,14 @@ public class Application {
         LOGGER.info(
             "2. message = {}",
              context.resolvePropertyPlaceholders("{{the.message}}")
+        );
+        LOGGER.info(
+            "3. message = {}",
+             ConfigProvider.getConfig().getValue("the.message", String.class)
+        );
+        LOGGER.info(
+            "4. message = {}",
+             ConfigProviderResolver.instance().getConfig().getValue("the.message", String.class)
         );
     }
 }
